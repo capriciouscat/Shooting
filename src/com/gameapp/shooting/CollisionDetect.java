@@ -1,11 +1,11 @@
 package com.gameapp.shooting;
 
-// “–‚è”»’èƒNƒ‰ƒX
+// å½“ãŸã‚Šåˆ¤å®šã‚¯ãƒ©ã‚¹
 public class CollisionDetect {
-	private final int sizeofenemy = 72; // ‰æ‘œ‚ÌƒTƒCƒY 72x72
-	private final int sizeofspaceship = 72; // ‰æ‘œ‚ÌƒTƒCƒY 72x72
-	private final int sizeofmybullet = 16; // ‰æ‘œ‚ÌƒTƒCƒY 16x16
-	private final int halfsizeofbullet = 4; // ‰æ‘œ‚ÌƒTƒCƒY 9x9
+	private final int sizeofenemy = 72; // ç”»é¢ã®ã‚µã‚¤ã‚º 72x72
+	private final int sizeofspaceship = 72; // ç”»é¢ã®ã‚µã‚¤ã‚º 72x72
+	private final int sizeofmybullet = 16; // ç”»é¢ã®ã‚µã‚¤ã‚º 16x16
+	private final int halfsizeofbullet = 4; // ç”»é¢ã®ã‚µã‚¤ã‚º 9x9
 	
 	public CollisionDetect(){
 		
@@ -22,7 +22,7 @@ public class CollisionDetect {
 		return false;
 	}
 	
-	// ©‹@‚Ì“–‚è”»’è‚Íˆê‰ñ‚è`“ñ‰ñ‚è¬‚³‚­ ‚±‚±‚Å‚Í-10¬‚³‚­‚µ‚Ä‚¢‚é
+	// è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®šã¯ä¸€å›ã‚Šï½äºŒå›ã‚Šå°ã•ã ã“ã“ã§ã¯-10å°ã•ãã—ã¦ã„ã‚‹
 	public boolean test(Bullet b, Spaceship s){
 		if(		(b.x-halfsizeofbullet < s.x + sizeofspaceship -10) &&
 				(b.x-halfsizeofbullet + halfsizeofbullet*2 > s.x+10) &&

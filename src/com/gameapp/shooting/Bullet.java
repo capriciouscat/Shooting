@@ -1,17 +1,17 @@
 package com.gameapp.shooting;
 
-// ’e‚Ì’ŠÛƒNƒ‰ƒX
+// å¼¾ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹
 public abstract class Bullet {
-	float x, y; // ˆÊ’u
-	double vx, vy; // ‘¬“x
-	int vieww, viewh; // ‰æ–Ê‚Ì•‚Æ‚‚³
-	boolean isLive = true; // ’e‚Ì¶Ž€ƒtƒ‰ƒO
+	float x, y; // ä½ç½®
+	double vx, vy; // é€Ÿåº¦
+	int vieww, viewh; // ç”»é¢ã®å¹…ã¨é«˜ã•
+	boolean isLive = true; // å¼¾ã®ç”Ÿæ­»ãƒ•ãƒ©ã‚°
 	
-	//@ˆÚ“®ƒƒ\ƒbƒh
+	//ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰
 	public void move(){
 		x = x + (float)vx;
 		y = y + (float)vy;
-		// ‰æ–Ê‚ÌŠO‚Éo‚½‚ç’e‚ðÁ‚·B9‚Í’e‚ÌƒTƒCƒY
+		// ç”»é¢ã®å¤–ã«å‡ºãŸã‚‰å¼¾ã‚’æ¶ˆã™ã€‚9ã¯å¼¾ã®ã‚µã‚¤ã‚º
 		if(x > vieww || x < -9){
 			isLive = false;
 		}

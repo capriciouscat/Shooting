@@ -1,12 +1,12 @@
 package com.gameapp.shooting;
 
-// “G‚ÌƒNƒ‰ƒX
+// æ•µã®ã‚¯ãƒ©ã‚¹
 public class Enemy extends MovableObject{
-	double vx, vy; // ‘¬“x
-	int vieww, viewh; // ‰æ–Ê‚Ì•‚Æ‚‚³
-	private final int halfsizeofspaceship = 36; // ‰æ‘œ‚ÌƒTƒCƒY 72x72‚Ì”¼•ª
-	private final int halfsizeofenemy = 36; // ‰æ‘œ‚ÌƒTƒCƒY 72x72‚Ì”¼•ª
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	double vx, vy; // é€Ÿåº¦
+	int vieww, viewh; // ç”»é¢ã®å¹…ã¨é«˜ã•
+	private final int halfsizeofspaceship = 36; // ç”»åƒã®ã‚µã‚¤ã‚ºã€€72Ã—72ã®åŠåˆ†
+	private final int halfsizeofenemy = 36; // ç”»åƒã®ã‚µã‚¤ã‚º 72x72ã®åŠåˆ†
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public Enemy(float initx, float inity, double vx, double vy, 
 			int vieww, int viewh){
 		x = initx; y = inity;
@@ -14,21 +14,38 @@ public class Enemy extends MovableObject{
 		this.vieww = vieww; this.viewh = viewh;
 	}
 	
-	// À•W‚Æ‘¬“x‰Šú‰»
+	// åº§æ¨™ã¨é€Ÿåº¦åˆæœŸåŒ–
 	public void init(float initx, float inity, double vx, double vy){
 		x = initx; y = inity;
 		this.vx = vx; this.vy = vy;
 	}
 	
-	// ˆÚ“®ƒƒ\ƒbƒh
-	public void move(){
+	// ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰
+	public void move(boolean isComming, boolean isPlus){
+		
+		if(isComming == false) { //é€šå¸¸å¼¾
+			
 		x = x + (float)vx; y = y + (float)vy;
-		// ‰æ–Ê‚ÌŠOŽü‚Å”½“]
+		// ç”»é¢ã®å¤–å‘¨ã§åè»¢
 		if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
 			vx = -vx;
 		}
 		if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
 			vy = -vy;
+		}
+		
+		} else if(isComming == true) {  //èª˜å°Žå¼¾
+			float movex;
+			movex = isPlus?(float)-2.5:(float)2.5;
+			
+			x = x + movex; y = y + (float)vy;  //è‡ªæ©Ÿã«ã‚ˆã£ã¦ã„ãã‚ˆã†ã«
+			// ç”»é¢ã®å¤–å‘¨ã§åè»¢
+			if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
+				vx = -vy;
+			}
+			if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
+				vy = -vy;
+			}
 		}
 	}
 }

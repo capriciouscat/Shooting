@@ -1,6 +1,6 @@
 package com.gameapp.shooting;
 
-// ˆÚ“®•¨‘Ì‚Ì’ŠÛƒNƒ‰ƒX
+// ç§»å‹•ç‰©ä½“ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹
 public abstract class MovableObject {
 	float x, y;
 }

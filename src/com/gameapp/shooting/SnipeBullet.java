@@ -2,12 +2,12 @@ package com.gameapp.shooting;
 
 import java.lang.Math;
 
-// ‘_‚¢Œ‚‚¿’eƒNƒ‰ƒX
+// ç‹™ã„æ’ƒã¡å¼¾ã‚¯ãƒ©ã‚¹
 public class SnipeBullet extends Bullet{
 	private final float halfsizeofspaceship = 36;
 	float spaceshipy;
-	double ax = 0, ay = 0; // ‰Á‘¬“x
-	int mode; // 0=’¼üA1=ƒz[ƒ~ƒ“ƒO
+	double ax = 0, ay = 0; // åŠ é€Ÿåº¦
+	int mode; // 0=ç›´ç·šã€1=ãƒ›ãƒ¼ãƒŸãƒ³ã‚°
 	
 	public SnipeBullet(float initx, float inity, float spaceshipx, float spaceshipy,
 			int vieww, int viewh, int mode){
@@ -16,11 +16,11 @@ public class SnipeBullet extends Bullet{
 		this.spaceshipy = spaceshipy;
 		this.mode = mode;
 		
-		if(mode == 0){ // ’¼ü
+		if(mode == 0){ // ç›´ç·š
 			double rad = Math.atan2(spaceshipy - y, spaceshipx - x);
 			vx = 4 * Math.cos(rad);
 			vy = 4 * Math.sin(rad);
-		}else{ // ƒz[ƒ~ƒ“ƒO
+		}else{ // ãƒ›ãƒ¼ãƒŸãƒ³ã‚°
 			vx = 0;
 			vy = -5;
 		}
@@ -29,19 +29,19 @@ public class SnipeBullet extends Bullet{
 		this.viewh = viewh;
 	}
 	
-	//@ˆÚ“®ƒƒ\ƒbƒh
+	// ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰
 	public void move(float spaceshipx){
-		if(mode == 0){ // ’¼ü
+		if(mode == 0){ // ï¿½ï¿½ï¿½ï¿½
 			x = x + (float)vx;
 			y = y + (float)vy;
-			// ‰æ–Ê‚ÌŠO‚Éo‚½‚ç’e‚ðÁ‚·
+			// ç”»é¢ã®å¤–ã«å‡ºãŸã‚‰å¼¾ã‚’æ¶ˆã™
 			if(x > vieww || x < -9){
 				isLive = false;
 			}
 			if(y > viewh || y < -9){
 				isLive = false;
 			}
-		}else{ // ƒz[ƒ~ƒ“ƒO
+		}else{ // ãƒ›ãƒ¼ãƒŸãƒ³ã‚°
 			double rad = Math.atan2(spaceshipy - y,
 					spaceshipx + halfsizeofspaceship - x);
 			ax = Math.cos(rad) / 12;
@@ -52,7 +52,7 @@ public class SnipeBullet extends Bullet{
 			}
 			x = x + (float)vx;
 			y = y + (float)vy;
-			// ‰æ–Ê‚ÌŠO‚Éo‚½‚ç’e‚ðÁ‚·Bƒz[ƒ~ƒ“ƒO‚Ìê‡A‰æ–ÊŠO‚Å‚à}100‚ÍÁ‚³‚È‚¢
+			// ç”»é¢ã®å¤–ã«å‡ºãŸã‚‰å¼¾ã‚’æ¶ˆã™ã€‚ãƒ›ãƒ¼ãƒŸãƒ³ã‚°ã®å ´åˆã€ç”»é¢å¤–ã§ã‚‚Â±100ã¯æ¶ˆã•ãªã„
 			if(x > vieww + 100 || x < -100){
 				isLive = false;
 			}

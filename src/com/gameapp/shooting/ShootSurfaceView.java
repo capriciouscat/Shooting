@@ -16,16 +16,16 @@ public class ShootSurfaceView extends SurfaceView{
 		holder.addCallback(cb);
 	}
 	
-	@Override // SurfaceView�̃T�C�Y���擾
+	@Override // SurfaceViewのサイズを取得
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
-		cb.vieww = w; cb.viewh = h;
+		cb.vieww = w; cb.viewh = h-10;
 	}
 	
-	@Override // �^�b�`���ꂽ�ʒu���擾
+	@Override // タッチされた位置を取得
 	public boolean onTouchEvent(MotionEvent event) {
-		float x = event.getX(); // ���W���擾
-		//float y = event.getY(); // ���W���擾
-		int action = event.getAction(); // �^�b�`�̓�����擾
+		float x = event.getX(); // 座標を取得
+		//float y = event.getY(); // 座標を取得
+		int action = event.getAction(); // タッチの動作を取得
 		cb.getTouchPosition(x, action);
 		return true;
 	}
