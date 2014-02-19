@@ -3,7 +3,10 @@ package com.gameapp.shooting;
 // 自機クラス
 public class Spaceship extends MovableObject{
 	int life; // ライフ
+	boolean touched = false;
+	boolean comeon = false;
 	private final float halfsizeofspaceship = 36;
+	
 	
 	public Spaceship(int x, int y, int vieww){
 		this.x = (float)x;

@@ -11,19 +11,18 @@ public class LinearBullet extends Bullet{
 		this.viewh = viewh;
 	}
 	
-	@Override
 	//移動メソッド
-		public void move(){
+		public void move(Spaceship spaceship){
 			x = x + (float)vx;
 			y = y + (float)vy;
 			// 画面の外に出たら弾を消す。9は弾のサイズ
 			if(x > vieww || x < -9){
 				isLive = false;
-				ShootSurfaceHolderCallback.isComming = false;
+				spaceship.touched = false;
 			}
 			if(y > viewh || y < -9){
 				isLive = false;
-				ShootSurfaceHolderCallback.isComming = false;
+				spaceship.touched =false;
 			}
 		}
 }

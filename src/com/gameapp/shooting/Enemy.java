@@ -4,6 +4,9 @@ package com.gameapp.shooting;
 public class Enemy extends MovableObject{
 	double vx, vy; // 速度
 	int vieww, viewh; // 画面の幅と高さ
+	boolean isComming;
+	boolean isPlus;
+	float commingX;
 	private final int halfsizeofspaceship = 36; // 画像のサイズ　72×72の半分
 	private final int halfsizeofenemy = 36; // 画像のサイズ 72x72の半分
 	// コンストラクタ
@@ -21,30 +24,47 @@ public class Enemy extends MovableObject{
 	}
 	
 	// 移動メソッド
-	public void move(boolean isComming, boolean isPlus){
+	public void move(){
 		
 		if(isComming == false) { //通常弾
 			
-		x = x + (float)vx; y = y + (float)vy;
-		// 画面の外周で反転
-		if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
-			vx = -vx;
-		}
-		if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
-			vy = -vy;
-		}
+		    x = x + (float)vx; y = y + (float)vy;
+		    // 画面の外周で反転
+		    if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
+			    vx = -vx;
+		    }
+		    if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
+			    vy = -vy;
+		    }
 		
-		} else if(isComming == true) {  //誘導弾
-			float movex;
-			movex = isPlus?(float)-2.5:(float)2.5;
+		} else if(isComming == true && isPlus == true) {  //誘導弾
 			
-			x = x + movex; y = y + (float)vy;  //自機によっていくように
-			// 画面の外周で反転
-			if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
-				vx = -vy;
-			}
-			if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
-				vy = -vy;
+			if(commingX < x) {
+			     x = x - (float)2.0; y = y + (float)vy;  //自機によっていくように
+			     // 画面の外周で反転
+			     if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
+				     vx = -vy;
+			     }
+			     if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
+				     vy = -vy;
+			     }
+			 } else {
+				isComming = false;
+			 }
+			
+		} else if(isComming == true && isPlus == false) {
+			
+			if(commingX > x) {
+				 x = x + (float)2.0; y = y + (float)vy;  //自機によっていくように
+			     // 画面の外周で反転
+			     if(x > vieww - halfsizeofenemy || x < -halfsizeofenemy){
+				     vx = -vy;
+			     }
+			     if(y > viewh - halfsizeofspaceship * 6 || y < -halfsizeofenemy){
+				     vy = -vy;
+			     }
+			} else {
+				isComming = false;
 			}
 		}
 	}

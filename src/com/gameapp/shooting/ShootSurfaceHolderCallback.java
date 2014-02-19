@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Style;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runnable {
@@ -15,6 +16,7 @@ public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runna
 	private Thread thread = null;
 	private boolean isThreadrunning = true;
 	private float touchx; // タッチされたx座標
+	private float touchy; // タッチされたy座標
 	int vieww, viewh; // SurfaveViewの幅と高さ
 	private int dir = 0; // 渦巻き状弾の方向パラメータ
 	private long t1 = 0, t2 = 0; // スリープ用
@@ -37,8 +39,7 @@ public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runna
 	private int touchaction;
 	private int bgimagex = 0;
 	private boolean isShake = false;
-	public static boolean isComming = false;
-	public static boolean isPlus;
+
 	
 	//　長方形のクラス　public Rect (int left, int top, int right, int bottom)
 	private Rect recthit;
@@ -58,9 +59,20 @@ public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runna
 	}
 	
 	// タッチされた位置を取得
-	public void getTouchPosition(float x, int action){
+	public void getTouchPosition(float x, float y, int action, boolean comming){
 		touchx = x;
+		touchy = y;
 		touchaction = action; // ゲームの再開の処理のため
+		
+		if(!comming && spaceship.x < touchx && spaceship.x+halfsizeofspaceship*2 > touchx && viewh - halfsizeofspaceship*2 < touchy){
+			spaceship.touched = true;
+			spaceship.comeon = false;
+			ShootActivity.bulletimage = ShootActivity.mybullet;
+		} else if (comming && spaceship.x < touchx && spaceship.x+halfsizeofspaceship*2 > touchx && viewh - halfsizeofspaceship*2 < touchy) {
+			spaceship.touched = true;
+			spaceship.comeon = true;
+			ShootActivity.bulletimage = ShootActivity.comebullet;
+		}
 	}
 	
 	// コールバック関数
@@ -128,32 +140,30 @@ public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runna
 	    			 
 	    			// 自弾移動
 	 				if(mybullet.isLive == true && spaceship.life > 0) {
-	 					mybullet.move();
-	 				}else if (enemy1.y >= enemy2.y && enemy1.x < spaceship.x+2 && enemy1.x > spaceship.x-2){ //自機に近い敵機にのみ弾発射
+	 					mybullet.move(spaceship);
+	 				} else if(spaceship.touched && spaceship.life > 0 && spaceship.comeon == false){
 	 					mybullet.x = spaceship.x + halfsizeofspaceship;
-	 					mybullet.y = spaceship.y;
-	 					ShootActivity.bulletimage = ShootActivity.mybullet;
-	 					mybullet.isLive = true;
-	 					isComming = false;      //誘導弾無効化
-	 				} else if(enemy1.y < enemy2.y && enemy2.x < spaceship.x+2 && enemy2.x > spaceship.x-2) { //自機に近い敵機にのみ弾発射
-	  					mybullet.x = spaceship.x + halfsizeofspaceship;
-	  					mybullet.y = spaceship.y;
-	  					ShootActivity.bulletimage = ShootActivity.mybullet;
-	  					mybullet.isLive = true;
-	  					isComming = false;     //誘導弾無効化
-	    		   } else if(enemy1.x > spaceship.x+vieww/2-halfsizeofspaceship*3 && enemy2.x > spaceship.x+viewh/2-halfsizeofspaceship*3 || enemy1.x < spaceship.x-vieww/2+halfsizeofspaceship*3 && enemy2.x < spaceship.x-viewh/2+halfsizeofspaceship*3){
-	    			    mybullet.x = spaceship.x + halfsizeofspaceship;
-	    			    mybullet.y = spaceship.y;
-	    			    ShootActivity.bulletimage = ShootActivity.comebullet;
-	    			    mybullet.isLive =true;
-	    			    isComming = true;                                   //誘導弾作動中
-	    			    isPlus = enemy1.x > spaceship.x+vieww	/2 ? true : false; //自機より敵機のx座標が大きい（右側）か小さい（左側）か
-	    		   } 
+						mybullet.y = spaceship.y;
+						mybullet.isLive = true;
+	 				} else if(spaceship.touched && spaceship.life > 0 && spaceship.comeon == true){
+	 					mybullet.x = spaceship.x + halfsizeofspaceship;
+						mybullet.y = spaceship.y;
+						mybullet.isLive = true;
+						if(enemy1.y > enemy2.y) {
+							enemy1.isComming = true;
+							enemy1.isPlus = enemy1.x > spaceship.x ? true: false;
+							enemy1.commingX = spaceship.x;
+						} else {
+							enemy2.isComming = true;
+							enemy2.isPlus = enemy1.x > spaceship.x ? true: false;
+							enemy2.commingX = spaceship.x;
+						}
+	 				}
 	    	
 
 							
-				enemy1.move(isComming, isPlus); // 敵機移動
-				enemy2.move(isComming, isPlus); // 敵機移動
+				enemy1.move(); // 敵機移動
+				enemy2.move(); // 敵機移動
 				
 				// 敵弾生成
 				interval++;
@@ -208,15 +218,15 @@ public class ShootSurfaceHolderCallback implements SurfaceHolder.Callback, Runna
 			if(cd.test(mybullet, enemy1)){
 				nwaybulletmode = 1 - nwaybulletmode;
 				bullet1.removeAll(bullet1);
-				mybullet.x = spaceship.x + halfsizeofspaceship;
-				mybullet.y = spaceship.y;
+				mybullet.isLive = false;
+				spaceship.touched = false;
 				spaceship.life = spaceship.life + 5;
 			}
 			if(cd.test(mybullet, enemy2)){
 				snipebulletmode = 1 - snipebulletmode;
 				bullet2.removeAll(bullet2);
-				mybullet.x = spaceship.x + halfsizeofspaceship;
-				mybullet.y = spaceship.y;
+				mybullet.isLive = false;
+				spaceship.touched = false;
 				spaceship.life = spaceship.life + 5;
 			}
 			if(spaceship.life > vieww){ // 自機ライフの上限設定
